@@ -1,0 +1,20 @@
+# ===========================================
+# SRAITO - Docker Compose Base Configuration
+# ===========================================
+
+version: '3.8'
+
+services:
+  # Frontend application
+  frontend:
+    image: sraito-frontend:${TAG:-latest}
+    restart: unless-stopped
+    networks:
+      - sraito-network
+
+networks:
+  sraito-network:
+    driver: bridge
+
+volumes:
+  node_modules:

@@ -1,0 +1,33 @@
+# ===========================================
+# SRAITO - Docker Compose DEVELOPMENT
+# Usage: docker compose -f docker-compose.dev.yml up
+# ===========================================
+
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: sraito-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source code for hot reload
+      - .:/app
+      # Exclude node_modules (use container's modules)
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_ENV=development
+      - VITE_API_URL=http://localhost:8000
+    networks:
+      - sraito-dev-network
+    # Enable file watching for hot reload
+    stdin_open: true
+    tty: true
+
+networks:
+  sraito-dev-network:
+    driver: bridge
